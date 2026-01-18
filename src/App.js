@@ -12,17 +12,32 @@ import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 
+const isLoggedIn = () => localStorage.getItem("isLoggedIn") === "true";
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth Routes */}
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/"
+          element={isLoggedIn() ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+        />
 
-        {/* Dashboard Routes */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/login"
+          element={isLoggedIn() ? <Navigate to="/dashboard" /> : <Login />}
+        />
+
+        <Route
+          path="/signup"
+          element={isLoggedIn() ? <Navigate to="/dashboard" /> : <Signup />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={isLoggedIn() ? <Dashboard /> : <Navigate to="/login" />}
+        />
+
         <Route path="/products" element={<Products />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/suppliers" element={<Suppliers />} />
